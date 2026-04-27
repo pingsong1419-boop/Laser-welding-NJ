@@ -123,9 +123,34 @@ class PlasmaCleaningTab(QWidget):
         tc = QVBoxLayout(table_card)
         tc.setSpacing(12)
 
+        title_row = QHBoxLayout()
         title = QLabel("🔬 参数监控")
         title.setStyleSheet("font-size: 15px; font-weight: 700; color: #90caf9;")
-        tc.addWidget(title)
+        title_row.addWidget(title)
+        title_row.addStretch()
+
+        self.oneDtae_label = QLabel("电芯位置:")
+        self.oneDtae_label.setStyleSheet("font-size: 14px; color: #e3f2fd;")
+        title_row.addWidget(self.oneDtae_label)
+
+        self.oneDtae_combo = QComboBox()
+        self.oneDtae_combo.addItems([f"oneDtae[{i}]" for i in range(1, 301)])
+        self.oneDtae_combo.setStyleSheet("""
+            QComboBox {
+                background: #1e293b;
+                border: 1px solid rgba(144,202,249,0.3);
+                border-radius: 4px;
+                padding: 4px 12px;
+                color: #f8fafc;
+                font-size: 14px;
+                min-width: 140px;
+            }
+            QComboBox::drop-down { border: none; }
+            QComboBox QAbstractItemView { background: #1e293b; color: #f8fafc; selection-background-color: #3b82f6; }
+        """)
+        self.oneDtae_combo.currentIndexChanged.connect(self._on_oneDtae_changed)
+        title_row.addWidget(self.oneDtae_combo)
+        tc.addLayout(title_row)
 
         self.data_table = QTableWidget()
         self.data_table.setColumnCount(7)
@@ -179,14 +204,50 @@ class PlasmaCleaningTab(QWidget):
 
         layout.addWidget(table_card, stretch=1)
 
+    def _on_oneDtae_changed(self):
+        """当电芯/极柱位置切换下拉框触发变更时，重新加载点位偏移"""
+        self._load_points()
+        if hasattr(self, "log"):
+            self.log.emit("INFO", f"切换至电芯极柱组 {self.oneDtae_combo.currentText()}")
+
     def _load_points(self):
         """从配置加载参数点。若在 config 中有记录(哪怕删空)，则以配置为准；否则初次加载默认值。"""
+        # 极柱 1-13 数据结构模板 (单组占 80 字节)
+        onedtae_template = [
+            {"name": "保护气流量1", "offset_shift": 0, "type": "Real", "unit": "L/min"},
+            {"name": "外环实际功率1", "offset_shift": 4, "type": "Real", "unit": "W"},
+            {"name": "内环实际功率1", "offset_shift": 8, "type": "Real", "unit": "W"},
+            {"name": "除尘风速1", "offset_shift": 12, "type": "Real", "unit": "m/s"},
+            {"name": "压头压力1", "offset_shift": 16, "type": "Real", "unit": "MPa"},
+            {"name": "极柱1行号", "offset_shift": 20, "type": "Int", "unit": ""},
+            {"name": "极柱1列号", "offset_shift": 22, "type": "Int", "unit": ""},
+            {"name": "极柱1 X轴坐标", "offset_shift": 24, "type": "Real", "unit": "mm"},
+            {"name": "极柱1 Y轴坐标", "offset_shift": 28, "type": "Real", "unit": "mm"},
+            {"name": "极柱1 Z轴坐标", "offset_shift": 32, "type": "Real", "unit": "mm"},
+            {"name": "极柱1 测距值", "offset_shift": 36, "type": "Real", "unit": "mm"},
+            {"name": "保护气流量2", "offset_shift": 40, "type": "Real", "unit": "L/min"},
+            {"name": "外环实际功率2", "offset_shift": 44, "type": "Real", "unit": "W"},
+            {"name": "内环实际功率2", "offset_shift": 48, "type": "Real", "unit": "W"},
+            {"name": "除尘风速2", "offset_shift": 52, "type": "Real", "unit": "m/s"},
+            {"name": "压头压力2", "offset_shift": 56, "type": "Real", "unit": "MPa"},
+            {"name": "极柱2行号", "offset_shift": 60, "type": "Int", "unit": ""},
+            {"name": "极柱2列号", "offset_shift": 62, "type": "Int", "unit": ""},
+            {"name": "极柱2 X轴坐标", "offset_shift": 64, "type": "Real", "unit": "mm"},
+            {"name": "极柱2 Y轴坐标", "offset_shift": 68, "type": "Real", "unit": "mm"},
+            {"name": "极柱2 Z轴坐标", "offset_shift": 72, "type": "Real", "unit": "mm"},
+            {"name": "极柱2 测距值", "offset_shift": 76, "type": "Real", "unit": "mm"}
+        ]
+
+        # 1. 提取基础配置
+        base_points = []
         if self.config and "plasmaMonitorPoints" in self.config:
             pts = self.config["plasmaMonitorPoints"]
-            self._monitor_points = []
             for p in pts:
-                self._monitor_points.append({
-                    "name": str(p.get("name", "")),
+                pname = str(p.get("name", ""))
+                if "极柱" in pname or "保护气流量" in pname or "外环实际功率" in pname or "内环实际功率" in pname or "除尘风速" in pname or "压头压力" in pname:
+                    continue
+                base_points.append({
+                    "name": pname,
                     "db": int(p.get("db", 100)),
                     "offset": int(p.get("offset", 0)),
                     "type": str(p.get("type", "Real")),
@@ -196,8 +257,29 @@ class PlasmaCleaningTab(QWidget):
                     "time": "-"
                 })
         else:
-            self._monitor_points = [dict(p, value="-", time="-") for p in self.DEFAULT_POINTS]
-            self._save_points()
+            base_points = [dict(p, value="-", time="-") for p in self.DEFAULT_POINTS]
+
+        # 2. 动态拼装选中的 oneDtae[X] 点
+        current_index = 0
+        if hasattr(self, 'oneDtae_combo'):
+            current_index = self.oneDtae_combo.currentIndex()
+        
+        # 5620 是 oneDtae[1] 的起始偏移，每个结构体占用 80 字节
+        oneDtae_base = 5620 + current_index * 80
+        
+        for t in onedtae_template:
+            base_points.append({
+                "name": t["name"],
+                "db": 8160,
+                "offset": oneDtae_base + t["offset_shift"],
+                "type": t["type"],
+                "unit": t["unit"],
+                "bit": 0,
+                "value": "-",
+                "time": "-"
+            })
+
+        self._monitor_points = base_points
         self._refresh_table()
 
     def _save_points(self):

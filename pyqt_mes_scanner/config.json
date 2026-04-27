@@ -265,6 +265,182 @@
       "type": "Bool",
       "unit": "",
       "bit": 1
+    },
+    {
+      "name": "保护气流量1",
+      "db": 8160,
+      "offset": 5620,
+      "type": "Real",
+      "unit": "L/min",
+      "bit": 0
+    },
+    {
+      "name": "外环实际功率1",
+      "db": 8160,
+      "offset": 5624,
+      "type": "Real",
+      "unit": "W",
+      "bit": 0
+    },
+    {
+      "name": "内环实际功率1",
+      "db": 8160,
+      "offset": 5628,
+      "type": "Real",
+      "unit": "W",
+      "bit": 0
+    },
+    {
+      "name": "除尘风速1",
+      "db": 8160,
+      "offset": 5632,
+      "type": "Real",
+      "unit": "m/s",
+      "bit": 0
+    },
+    {
+      "name": "压头压力1",
+      "db": 8160,
+      "offset": 5636,
+      "type": "Real",
+      "unit": "MPa",
+      "bit": 0
+    },
+    {
+      "name": "极柱1行号",
+      "db": 8160,
+      "offset": 5640,
+      "type": "Int",
+      "unit": "",
+      "bit": 0
+    },
+    {
+      "name": "极柱1列号",
+      "db": 8160,
+      "offset": 5642,
+      "type": "Int",
+      "unit": "",
+      "bit": 0
+    },
+    {
+      "name": "极柱1 X轴坐标",
+      "db": 8160,
+      "offset": 5644,
+      "type": "Real",
+      "unit": "mm",
+      "bit": 0
+    },
+    {
+      "name": "极柱1 Y轴坐标",
+      "db": 8160,
+      "offset": 5648,
+      "type": "Real",
+      "unit": "mm",
+      "bit": 0
+    },
+    {
+      "name": "极柱1 Z轴坐标",
+      "db": 8160,
+      "offset": 5652,
+      "type": "Real",
+      "unit": "mm",
+      "bit": 0
+    },
+    {
+      "name": "极柱1 测距值",
+      "db": 8160,
+      "offset": 5656,
+      "type": "Real",
+      "unit": "mm",
+      "bit": 0
+    },
+    {
+      "name": "保护气流量2",
+      "db": 8160,
+      "offset": 5660,
+      "type": "Real",
+      "unit": "L/min",
+      "bit": 0
+    },
+    {
+      "name": "外环实际功率2",
+      "db": 8160,
+      "offset": 5664,
+      "type": "Real",
+      "unit": "W",
+      "bit": 0
+    },
+    {
+      "name": "内环实际功率2",
+      "db": 8160,
+      "offset": 5668,
+      "type": "Real",
+      "unit": "W",
+      "bit": 0
+    },
+    {
+      "name": "除尘风速2",
+      "db": 8160,
+      "offset": 5672,
+      "type": "Real",
+      "unit": "m/s",
+      "bit": 0
+    },
+    {
+      "name": "压头压力2",
+      "db": 8160,
+      "offset": 5676,
+      "type": "Real",
+      "unit": "MPa",
+      "bit": 0
+    },
+    {
+      "name": "极柱2行号",
+      "db": 8160,
+      "offset": 5680,
+      "type": "Int",
+      "unit": "",
+      "bit": 0
+    },
+    {
+      "name": "极柱2列号",
+      "db": 8160,
+      "offset": 5682,
+      "type": "Int",
+      "unit": "",
+      "bit": 0
+    },
+    {
+      "name": "极柱2 X轴坐标",
+      "db": 8160,
+      "offset": 5684,
+      "type": "Real",
+      "unit": "mm",
+      "bit": 0
+    },
+    {
+      "name": "极柱2 Y轴坐标",
+      "db": 8160,
+      "offset": 5688,
+      "type": "Real",
+      "unit": "mm",
+      "bit": 0
+    },
+    {
+      "name": "极柱2 Z轴坐标",
+      "db": 8160,
+      "offset": 5692,
+      "type": "Real",
+      "unit": "mm",
+      "bit": 0
+    },
+    {
+      "name": "极柱2 测距值",
+      "db": 8160,
+      "offset": 5696,
+      "type": "Real",
+      "unit": "mm",
+      "bit": 0
     }
   ],
   "fullMaterialCheckUrl": "http://172.25.57.144:8076/api/ProduceMessage/CompleteCheckInput",
