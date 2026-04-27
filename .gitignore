@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+.agent/
+.vscode/
+.idea/
+.gemini/
+snap7.dll
+test_output.txt
+*.log

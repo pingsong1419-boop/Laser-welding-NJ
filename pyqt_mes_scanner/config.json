@@ -1,0 +1,273 @@
+{
+  "orderApiUrl": "http://172.25.57.144:8076/api/OrderInfo/GetOtherOrderInfoByProcess",
+  "routeApiUrl": "http://172.25.57.144:8076/api/OrderInfo/GetTechRouteListByCode",
+  "singleMaterialApiUrl": "http://172.25.57.144:8076/api/ProduceMessage/MaterialCheckInput",
+  "moduleCodeApiUrl": "http://172.25.57.144:8034/api/CodeCreate/ModulePackCodeCreate",
+  "moduleBindPushUrl": "http://172.25.57.144:8071/api/ProduceMessage/PushMessageToMes",
+  "packingUploadUrl": "http://172.25.57.144:8034/api/ProduceReport/InsertModuleLocationInfo",
+  "moduleBindProcessCode": "CTP_P1190",
+  "packingProcessCode": "CTP_P1150",
+  "tenantID": "FD",
+  "DeviceCode": "",
+  "UserName": "",
+  "UserAccount": "",
+  "technicsProcessCode": "CTP_P1190",
+  "recipes": [
+    {
+      "name": "A",
+      "specsCode": "OJ1",
+      "note": "Test"
+    },
+    {
+      "name": "B",
+      "specsCode": "OJ2",
+      "note": "ToTest"
+    },
+    {
+      "name": "C",
+      "specsCode": "0J6",
+      "note": "可用"
+    }
+  ],
+  "currentRecipe": "0J6",
+  "s7": {
+    "enabled": false,
+    "ip": "127.0.0.1",
+    "rack": 0,
+    "slot": 1,
+    "pollIntervalMs": 500,
+    "startSignal": {
+      "db": 1,
+      "offset": 0,
+      "bit": 0
+    }
+  },
+  "s7Config": {
+    "enabled": true,
+    "ip": "127.0.0.1",
+    "rack": 0,
+    "slot": 1,
+    "pollIntervalMs": 500,
+    "startSignal": {
+      "db": 1,
+      "offset": 0,
+      "type": "Bool",
+      "bit": 0,
+      "triggerValue": "1",
+      "resetValue": "0"
+    },
+    "moduleCodeSignal": {
+      "db": 2,
+      "offset": 0,
+      "type": "String",
+      "bit": 0,
+      "strLen": 24
+    },
+    "packBoxRequestSignal": {
+      "db": 1,
+      "offset": 0,
+      "type": "Bool",
+      "bit": 0,
+      "triggerValue": "1",
+      "resetValue": "0"
+    },
+    "packBoxSignal": {
+      "db": 1,
+      "offset": 1,
+      "type": "String",
+      "bit": 0,
+      "strLen": 24
+    }
+  },
+  "logSavePath": "D:/日志",
+  "plcMonitorPoints": [],
+  "plasmaMonitorPoints": [
+    {
+      "name": "PACK条码",
+      "db": 8160,
+      "offset": 5434,
+      "type": "String",
+      "unit": "",
+      "bit": 0
+    },
+    {
+      "name": "总离焦量",
+      "db": 8160,
+      "offset": 5466,
+      "type": "Real",
+      "unit": "mm",
+      "bit": 0
+    },
+    {
+      "name": "焊接相对速度",
+      "db": 8160,
+      "offset": 5470,
+      "type": "Real",
+      "unit": "mm/s",
+      "bit": 0
+    },
+    {
+      "name": "抖动直径",
+      "db": 8160,
+      "offset": 5474,
+      "type": "Real",
+      "unit": "mm",
+      "bit": 0
+    },
+    {
+      "name": "抖动距离",
+      "db": 8160,
+      "offset": 5478,
+      "type": "Real",
+      "unit": "mm",
+      "bit": 0
+    },
+    {
+      "name": "焊接轨迹直径",
+      "db": 8160,
+      "offset": 5482,
+      "type": "Real",
+      "unit": "mm",
+      "bit": 0
+    },
+    {
+      "name": "外环设定功率",
+      "db": 8160,
+      "offset": 5486,
+      "type": "Real",
+      "unit": "W",
+      "bit": 0
+    },
+    {
+      "name": "内环设定功率",
+      "db": 8160,
+      "offset": 5490,
+      "type": "Real",
+      "unit": "W",
+      "bit": 0
+    },
+    {
+      "name": "焊接开始时间",
+      "db": 8160,
+      "offset": 5494,
+      "type": "String",
+      "unit": "",
+      "bit": 0
+    },
+    {
+      "name": "焊接结束时间",
+      "db": 8160,
+      "offset": 5556,
+      "type": "String",
+      "unit": "",
+      "bit": 0
+    },
+    {
+      "name": "焊接时长",
+      "db": 8160,
+      "offset": 5618,
+      "type": "Real",
+      "unit": "s",
+      "bit": 0
+    },
+    {
+      "name": "系统健康度(PC)",
+      "db": 8160,
+      "offset": 0,
+      "type": "Bool",
+      "unit": "",
+      "bit": 0
+    },
+    {
+      "name": "PC托盘在位",
+      "db": 8160,
+      "offset": 0,
+      "type": "Bool",
+      "unit": "",
+      "bit": 1
+    },
+    {
+      "name": "PC配方写入完成",
+      "db": 8160,
+      "offset": 0,
+      "type": "Bool",
+      "unit": "",
+      "bit": 2
+    },
+    {
+      "name": "PC工作完成",
+      "db": 8160,
+      "offset": 0,
+      "type": "Bool",
+      "unit": "",
+      "bit": 3
+    },
+    {
+      "name": "PC合格放行",
+      "db": 8160,
+      "offset": 0,
+      "type": "Bool",
+      "unit": "",
+      "bit": 4
+    },
+    {
+      "name": "PC不合格放行",
+      "db": 8160,
+      "offset": 0,
+      "type": "Bool",
+      "unit": "",
+      "bit": 5
+    },
+    {
+      "name": "PC允许工作",
+      "db": 8160,
+      "offset": 0,
+      "type": "Bool",
+      "unit": "",
+      "bit": 6
+    },
+    {
+      "name": "PC传递机型",
+      "db": 8160,
+      "offset": 0,
+      "type": "Bool",
+      "unit": "",
+      "bit": 7
+    },
+    {
+      "name": "OCV测试end",
+      "db": 8160,
+      "offset": 1,
+      "type": "Bool",
+      "unit": "",
+      "bit": 0
+    },
+    {
+      "name": "PC允许工作状态反馈",
+      "db": 8160,
+      "offset": 2,
+      "type": "Int",
+      "unit": "",
+      "bit": 0
+    },
+    {
+      "name": "PC电芯检验完成反馈",
+      "db": 8160,
+      "offset": 4,
+      "type": "Bool",
+      "unit": "",
+      "bit": 0
+    },
+    {
+      "name": "手动扫码完成反馈",
+      "db": 8160,
+      "offset": 4,
+      "type": "Bool",
+      "unit": "",
+      "bit": 1
+    }
+  ],
+  "fullMaterialCheckUrl": "http://172.25.57.144:8076/api/ProduceMessage/CompleteCheckInput",
+  "defaultFeatureCode": "8",
+  "defaultSpecCode": ""
+}
